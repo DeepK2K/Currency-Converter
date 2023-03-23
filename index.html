@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        "apikey": "SiyQyckOyOqK1FwcOponbxet8lHAmbVg"
+                    }
+                };
+                            
+                document.querySelector("form").onsubmit=()=>{
+                    fetch("https://api.apilayer.com/exchangerates_data/latest?base=INR", options)
+                    .then(response => response.json())
+                    .then(data => {
+                        const currency=document.querySelector("#currency"); 
+                        const currencyValue=currency.value.toUpperCase();
+                        const rate=data.rates[currencyValue]
+                        if(rate!==undefined){
+                            document.querySelector("#result").innerHTML=`1 INR= ${rate} ${currencyValue}`
+                        }
+                        else{
+                            document.querySelector("#result").innerHTML="Enter Valid currency value"
+                        }
+                        console.log(data)
+                    })
+                    .catch(err => console.error(err));
+
+                    return false;
+                }      
+            })
+    </script>
+    <title>Currency Converter</title>
+</head>
+<body>
+    
+    
+    <div class="container">
+        <form >
+            <h1 class="title">Currency Converter</h1>
+            <input class="text-box" id="currency" type="text" placeholder="Enter Currency"/>
+            <input class="submitBtn" type="submit" value="Convert">
+            <div class="res" id="result"></div>
+        </form>
+    </div>
+    
+    
+    
+</body>
+</html>
